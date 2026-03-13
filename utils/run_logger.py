@@ -18,6 +18,17 @@ from typing import Any
 from uuid import uuid4
 
 
+_SENSITIVE_KEY_PARTS = (
+    "token",
+    "secret",
+    "password",
+    "passwd",
+    "api_key",
+    "access_key",
+    "auth",
+)
+
+
 def _utc_now_iso() -> str:
     """Return current UTC time as an ISO-8601 string."""
     return datetime.now(timezone.utc).isoformat()
@@ -30,6 +41,39 @@ def _json_default(value: Any) -> Any:
     if isinstance(value, Path):
         return str(value)
     return repr(value)
+
+
+def _looks_sensitive_key(key: str) -> bool:
+    lowered = key.lower()
+    return any(part in lowered for part in _SENSITIVE_KEY_PARTS)
+
+
+def _looks_sensitive_value(value: str) -> bool:
+    lowered = value.strip().lower()
+    return lowered.startswith("hf_") or lowered.startswith("sk-")
+
+
+def _redact_secrets(data: Any) -> Any:
+    """Recursively redact likely secret values from structured log payloads."""
+    if isinstance(data, dict):
+        redacted: dict[str, Any] = {}
+        for key, value in data.items():
+            if _looks_sensitive_key(str(key)):
+                redacted[str(key)] = "***REDACTED***"
+            else:
+                redacted[str(key)] = _redact_secrets(value)
+        return redacted
+
+    if isinstance(data, list):
+        return [_redact_secrets(item) for item in data]
+
+    if isinstance(data, tuple):
+        return tuple(_redact_secrets(item) for item in data)
+
+    if isinstance(data, str) and _looks_sensitive_value(data):
+        return "***REDACTED***"
+
+    return data
 
 
 class JsonLineFormatter(logging.Formatter):
@@ -76,7 +120,8 @@ class RunLogger:
         self.info("run_finished", **payload)
 
     def _with_run_meta(self, data: dict[str, Any]) -> dict[str, Any]:
-        return {"run_id": self.run_id, **data}
+        safe_data = _redact_secrets(data)
+        return {"run_id": self.run_id, **safe_data}
 
 
 def build_run_logger(

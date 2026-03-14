@@ -5,6 +5,7 @@ Plot training metrics.
 """
 
 import os
+import sys
 import matplotlib.pyplot as plt
 
 
@@ -34,3 +35,10 @@ class TrainingPlotter:
             print(f"Plot saved to {save_path}")
 
         plt.show()
+        # In notebook/Colab runs started from scripts, explicitly display saved image.
+        if save_path and ("ipykernel" in sys.modules or "google.colab" in sys.modules):
+            try:
+                from IPython.display import Image, display
+                display(Image(filename=save_path))
+            except Exception:
+                pass

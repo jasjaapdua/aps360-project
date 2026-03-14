@@ -79,6 +79,9 @@ class LyricsDatasetLoader:
         """
         Load lyrics dataset from HuggingFace.
         """
+        auth_mode = "authenticated" if config.hf_token else "unauthenticated"
+        print(f"HF Hub mode: {auth_mode}")
+
         try:
             dataset = load_dataset(
                 self.dataset_id,
@@ -94,12 +97,21 @@ class LyricsDatasetLoader:
             ) from exc
 
         lyrics = []
+        max_songs = config.hf_max_songs if config.hf_max_songs > 0 else None
+        progress_every = max(config.hf_progress_every, 1)
 
-        for row in dataset:
+        for idx, row in enumerate(dataset, start=1):
             text = row.get("lyrics")
 
             if isinstance(text, str) and text.strip():
                 lyrics.append(text)
+
+            if idx % progress_every == 0:
+                print(f"Processed {idx} rows; kept {len(lyrics)} lyrics")
+
+            if max_songs and len(lyrics) >= max_songs:
+                print(f"Reached HF_MAX_SONGS={max_songs}; stopping early")
+                break
 
         return lyrics
 

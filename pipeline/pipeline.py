@@ -10,7 +10,7 @@ from data.loader import LyricsDatasetLoader
 from preprocessing.text_cleaner import clean_lyrics
 from preprocessing.tokenizer import Tokenizer
 
-from datasets.sequence_dataset import SequenceDataset
+from project_datasets.sequence_dataset import SequenceDataset
 
 from models.ngram_model import NGramLanguageModel
 from models.lstm_model import LSTMLanguageModel

@@ -79,13 +79,19 @@ class LyricsDatasetLoader:
         """
         Load lyrics dataset from HuggingFace.
         """
-
-        dataset = load_dataset(
-            self.dataset_id, 
-            split="train",
-            token=config.hf_token,
-            streaming=config.hf_streaming
-        )
+        try:
+            dataset = load_dataset(
+                self.dataset_id,
+                split="train",
+                token=config.hf_token,
+                streaming=config.hf_streaming
+            )
+        except Exception as exc:
+            raise RuntimeError(
+                "Failed to load Hugging Face dataset "
+                f"'{self.dataset_id}'. If this is a Kaggle dataset slug, "
+                "set DATASET_SOURCE=kaggle in .env."
+            ) from exc
 
         lyrics = []
 

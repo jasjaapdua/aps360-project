@@ -201,6 +201,21 @@ Training reports:
 - validation loss / validation perplexity (if validation split exists)
 - trigram validation next-token accuracy
 
+## Plotting Metrics
+
+You can plot training curves with `matplotlib` using `utils.plotting`:
+
+```python
+from utils import plot_training_dashboard
+
+# train_losses / val_losses returned by train_lstm_model(...)
+fig, _ = plot_training_dashboard(
+    train_losses=train_losses,
+    val_losses=val_losses,
+    output_path="artifacts/training_dashboard.png",
+)
+```
+
 ## Troubleshooting
 
 ### Hugging Face import conflict

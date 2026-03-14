@@ -8,6 +8,14 @@ Environment variables remain UPPERCASE, but code uses snake_case.
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
+
+try:
+    from google.colab import userdata
+    HF_TOKEN = userdata.get("HF_TOKEN")
+except Exception:
+    HF_TOKEN = os.getenv("HF_TOKEN")
+
 
 class Config:
     _instance = None
@@ -23,9 +31,6 @@ class Config:
         Load configuration values from .env and environment variables.
         Runs only once.
         """
-
-        load_dotenv()
-
         # ----------------------
         # dataset
         # ----------------------
@@ -33,7 +38,7 @@ class Config:
         self.hf_token = os.getenv("HF_TOKEN", None)
         self.dataset_source = os.getenv("DATASET_SOURCE", "huggingface")
         self.dataset_id = os.getenv("DATASET_ID")
-        self.hf_token = os.getenv("HF_TOKEN")
+        self.hf_token = HF_TOKEN
         self.hf_streaming = os.getenv("HF_STREAMING", "false").lower() in ("true", "1", "yes")
 
         # ----------------------

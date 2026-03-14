@@ -6,9 +6,11 @@ Environment variables remain UPPERCASE, but code uses snake_case.
 """
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+_ENV_PATH = Path(__file__).resolve().parent / ".env"
+load_dotenv(dotenv_path=_ENV_PATH)
 
 try:
     from google.colab import userdata
@@ -39,6 +41,11 @@ class Config:
         self.dataset_source = os.getenv("DATASET_SOURCE", "huggingface")
         self.dataset_id = os.getenv("DATASET_ID")
         self.hf_token = HF_TOKEN
+        # Keep token in env so HF Hub client auth checks detect it
+        if self.hf_token:
+            os.environ["HF_TOKEN"] = self.hf_token
+            os.environ["HUGGINGFACE_HUB_TOKEN"] = self.hf_token
+        
         self.hf_streaming = os.getenv("HF_STREAMING", "false").lower() in ("true", "1", "yes")
 
         # ----------------------

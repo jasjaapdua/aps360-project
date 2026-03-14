@@ -180,8 +180,8 @@ def train_lstm_model(
 
     train_losses: list[float] = []
     val_losses: list[float] = []
-    model.train()
     for _epoch in range(config.epochs):
+        model.train()
         total = 0.0
         count = 0
         for x, y in loader:
@@ -244,6 +244,7 @@ def evaluate_lstm_loss(
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
     criterion = nn.CrossEntropyLoss()
 
+    was_training = model.training
     model.eval()
     total = 0.0
     count = 0
@@ -254,6 +255,9 @@ def evaluate_lstm_loss(
         loss = criterion(logits.reshape(-1, logits.size(-1)), y.reshape(-1))
         total += loss.item()
         count += 1
+
+    if was_training:
+        model.train()
 
     return total / max(count, 1)
 

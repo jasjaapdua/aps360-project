@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+_ENV_PATH = Path(__file__).resolve().parent / ".env"
+
 
 class Config:
     _instance = None
@@ -27,13 +29,14 @@ class Config:
         # ----------------------
         # dataset
         # ----------------------
-        load_dotenv()
+        load_dotenv(dotenv_path=_ENV_PATH)
         self.dataset_path = os.getenv("DATASET_PATH", "data/lyrics.txt")
         self.hf_token = os.getenv("HF_TOKEN", None)
         self.dataset_source = os.getenv("DATASET_SOURCE", "huggingface")
         self.dataset_id = os.getenv("DATASET_ID")
-        self.hf_token = os.getenv("HF_TOKEN")
-        self.hf_streaming = (os.getenv("HF_STREAMING").lower() or "false") == "true"
+        self.hf_max_songs = int(os.getenv("HF_MAX_SONGS", "20000"))
+        self.hf_progress_every = int(os.getenv("HF_PROGRESS_EVERY", "1000"))
+        self.hf_streaming = os.getenv("HF_STREAMING", "false").lower() in ("true", "1", "yes")
 
         # ----------------------
         # training parameters

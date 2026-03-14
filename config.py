@@ -33,6 +33,8 @@ class Config:
         self.hf_token = os.getenv("HF_TOKEN", None)
         self.dataset_source = os.getenv("DATASET_SOURCE", "huggingface")
         self.dataset_id = os.getenv("DATASET_ID")
+        self.hf_token = os.getenv("HF_TOKEN")
+        self.hf_streaming = os.getenv("HF_STREAMING", "false").lower() in ("true", "1", "yes")
 
         # ----------------------
         # training parameters

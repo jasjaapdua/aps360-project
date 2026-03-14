@@ -45,7 +45,12 @@ class LyricsDatasetLoader:
         Load lyrics dataset from HuggingFace.
         """
 
-        dataset = load_dataset(self.dataset_id, split="train")
+        dataset = load_dataset(
+            self.dataset_id, 
+            split="train",
+            token=config.hf_token,
+            streaming=config.hf_streaming
+        )
 
         lyrics = []
 

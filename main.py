@@ -17,8 +17,8 @@ from pathlib import Path
 
 import torch
 
-from config import ConfigSingleton
-from models import (
+from config import Config
+from src.models import (
     TrainConfig,
     evaluate_trigram_accuracy,
     generate_text,
@@ -108,7 +108,9 @@ def load_training_corpus(cfg) -> tuple[list[list[str]], str]:
 
     if data_cfg.data_source == "huggingface":
         if not data_cfg.hf_dataset:
-            raise ValueError("LYRICS_HF_DATASET must be set for huggingface data source.")
+            raise ValueError(
+                "LYRICS_HF_DATASET must be set for huggingface data source."
+            )
         return load_huggingface_corpus(
             dataset_name=data_cfg.hf_dataset,
             config_name=data_cfg.hf_config,
@@ -120,7 +122,9 @@ def load_training_corpus(cfg) -> tuple[list[list[str]], str]:
 
     if data_cfg.data_source == "kaggle":
         if not data_cfg.kaggle_dataset:
-            raise ValueError("LYRICS_KAGGLE_DATASET must be set for kaggle data source.")
+            raise ValueError(
+                "LYRICS_KAGGLE_DATASET must be set for kaggle data source."
+            )
         return load_kaggle_corpus(
             dataset_ref=data_cfg.kaggle_dataset,
             text_column=data_cfg.text_column,
@@ -260,6 +264,7 @@ def train_command(args: argparse.Namespace) -> None:
     train_config = TrainConfig(
         seq_len=cfg.train.seq_len,
         batch_size=cfg.train.batch_size,
+        num_workers=cfg.train.num_workers,
         epochs=cfg.train.epochs,
         lr=cfg.train.lr,
         embedding_dim=cfg.train.embedding_dim,
@@ -288,7 +293,9 @@ def train_command(args: argparse.Namespace) -> None:
     save_vocabulary(stoi, cfg.paths.vocab_out)
     Path(cfg.paths.model_out).parent.mkdir(parents=True, exist_ok=True)
     save_checkpoint(model, cfg.paths.model_out, train_config)
-    logger.info("artifacts_saved", model_out=cfg.paths.model_out, vocab_out=cfg.paths.vocab_out)
+    logger.info(
+        "artifacts_saved", model_out=cfg.paths.model_out, vocab_out=cfg.paths.vocab_out
+    )
 
     trigram_model = train_trigram(train_corpus)
 
@@ -320,7 +327,9 @@ def train_command(args: argparse.Namespace) -> None:
         )
     )
     print("\nTrigram sample:")
-    print(generate_trigram(trigram_model, prompt=cfg.train.preview_prompt, max_tokens=30))
+    print(
+        generate_trigram(trigram_model, prompt=cfg.train.preview_prompt, max_tokens=30)
+    )
 
 
 def generate_command(args: argparse.Namespace) -> None:
@@ -365,8 +374,12 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     train = sub.add_parser("train", help="Train LSTM lyric model")
-    train.add_argument("--env-file", type=str, default=".env", help="Path to environment file")
-    train.add_argument("--data-source", choices=["local", "huggingface", "kaggle"], default=None)
+    train.add_argument(
+        "--env-file", type=str, default=".env", help="Path to environment file"
+    )
+    train.add_argument(
+        "--data-source", choices=["local", "huggingface", "kaggle"], default=None
+    )
     train.add_argument("--input", type=str, default=None)
 
     train.add_argument("--hf-dataset", type=str, default=None)
@@ -386,7 +399,9 @@ def build_parser() -> argparse.ArgumentParser:
     train.set_defaults(func=train_command)
 
     gen = sub.add_parser("generate", help="Generate lyrics from trained model")
-    gen.add_argument("--env-file", type=str, default=".env", help="Path to environment file")
+    gen.add_argument(
+        "--env-file", type=str, default=".env", help="Path to environment file"
+    )
     gen.add_argument("--model", type=str, default=None)
     gen.add_argument("--vocab", type=str, default=None)
     gen.add_argument("--prompt", type=str, default=None)
@@ -405,7 +420,7 @@ def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 
-    base_cfg = ConfigSingleton.get(env_file=args.env_file, force_reload=True)
+    base_cfg = Config.get(env_file=args.env_file, force_reload=True)
     run_logger = build_run_logger(
         log_file=base_cfg.logging.log_file,
         level=base_cfg.logging.level,

@@ -1,95 +1,59 @@
-"""Word-level tokenizer utilities used by model training and generation."""
+"""
+tokenizer.py
 
-from __future__ import annotations
+Word-level tokenizer using torchtext utilities.
+"""
 
-import re
-
-from preprocessing.build_vocabulary import BOS_TOKEN, EOS_TOKEN, UNK_TOKEN
-
-
-_WORD_RE = re.compile(r"[a-z0-9']+|[.,!?-]")
+from torchtext.data.utils import get_tokenizer
+from torchtext.vocab import build_vocab_from_iterator
 
 
-class LyricsTokenizer:
-    """Convert lyric text between tokens, token ids, and decoded strings.
-
-    The tokenizer uses a simple regex that captures:
-    - alphanumeric words plus apostrophes (`don't`),
-    - select punctuation tokens (`. , ! ? -`).
+class Tokenizer:
+    """
+    Class-based tokenizer for lyric generation.
     """
 
-    def __init__(self, stoi: dict[str, int]):
-        """Initialize the tokenizer from a vocabulary mapping.
+    def __init__(self):
+        self.tokenizer = get_tokenizer("basic_english")
+        self.vocab = None
 
-        Args:
-            stoi: Token-to-index mapping that must include `<unk>`, `<bos>`, and `<eos>`.
+    def _yield_tokens(self, texts):
         """
-        self.stoi = stoi
-        self.itos = {idx: token for token, idx in stoi.items()}
-
-        self.unk_id = self.stoi[UNK_TOKEN]
-        self.bos_id = self.stoi[BOS_TOKEN]
-        self.eos_id = self.stoi[EOS_TOKEN]
-
-    def tokenize(self, text: str) -> list[str]:
-        """Tokenize raw text into lowercase word/punctuation tokens.
-
-        Args:
-            text: Input text.
-
-        Returns:
-            List of token strings.
+        Generator used to build vocabulary.
         """
-        return _WORD_RE.findall(text.lower())
+        for text in texts:
+            yield self.tokenizer(text)
 
-    def encode(self, text: str, add_special_tokens: bool = True) -> list[int]:
-        """Tokenize and map text to token ids.
-
-        Args:
-            text: Raw input text.
-            add_special_tokens: Whether to wrap output with `<bos>` and `<eos>`.
-
-        Returns:
-            List of integer token ids.
+    def build_vocab(self, texts):
         """
-        ids = [self.stoi.get(tok, self.unk_id) for tok in self.tokenize(text)]
-        if add_special_tokens:
-            return [self.bos_id, *ids, self.eos_id]
-        return ids
-
-    def encode_tokens(self, tokens: list[str], add_special_tokens: bool = True) -> list[int]:
-        """Map a pre-tokenized list of tokens to ids.
-
-        Args:
-            tokens: Tokenized text (already split into token strings).
-            add_special_tokens: Whether to add sequence boundary tokens.
-
-        Returns:
-            List of integer token ids.
+        Build vocabulary from list of lyric strings.
         """
-        ids = [self.stoi.get(tok, self.unk_id) for tok in tokens]
-        if add_special_tokens:
-            return [self.bos_id, *ids, self.eos_id]
-        return ids
+        self.vocab = build_vocab_from_iterator(
+            self._yield_tokens(texts), specials=["<unk>"]
+        )
 
-    def decode(self, ids: list[int], skip_special_tokens: bool = True) -> str:
-        """Convert token ids back into a readable lyric string.
+        self.vocab.set_default_index(self.vocab["<unk>"])
 
-        Args:
-            ids: Sequence of token ids.
-            skip_special_tokens: If `True`, hide tokens like `<bos>` and `<eos>`.
-
-        Returns:
-            Decoded text with simple punctuation spacing cleanup.
+    def encode(self, text):
         """
-        tokens: list[str] = []
-        for idx in ids:
-            tok = self.itos.get(int(idx), UNK_TOKEN)
-            if skip_special_tokens and tok.startswith("<") and tok.endswith(">"):
-                continue
-            tokens.append(tok)
+        Convert text → token IDs
+        """
+        tokens = self.tokenizer(text)
+        return self.vocab(tokens)
 
-        text = " ".join(tokens)
-        for punct in [".", ",", "!", "?", "-"]:
-            text = text.replace(f" {punct}", punct)
-        return text.strip()
+    def encode_batch(self, texts):
+        """
+        Encode list of texts.
+        """
+        return [self.encode(text) for text in texts]
+
+    def decode(self, token_ids):
+        """
+        Convert token IDs → text
+        """
+        words = [self.vocab.lookup_token(i) for i in token_ids]
+        return " ".join(words)
+
+    @property
+    def vocab_size(self):
+        return len(self.vocab)

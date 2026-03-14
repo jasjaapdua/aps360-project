@@ -1,11 +1,10 @@
 """
 tokenizer.py
 
-Word-level tokenizer using torchtext utilities.
+Word-level tokenizer with a lightweight local vocabulary.
 """
 
-from torchtext.data.utils import get_tokenizer
-from torchtext.vocab import build_vocab_from_iterator
+import re
 
 
 class Tokenizer:
@@ -14,32 +13,30 @@ class Tokenizer:
     """
 
     def __init__(self):
-        self.tokenizer = get_tokenizer("basic_english")
-        self.vocab = None
+        self.vocab = {"<unk>": 0}
+        self.id_to_token = ["<unk>"]
 
-    def _yield_tokens(self, texts):
-        """
-        Generator used to build vocabulary.
-        """
-        for text in texts:
-            yield self.tokenizer(text)
+    def _tokenize(self, text):
+        if not isinstance(text, str):
+            return []
+        # Mirrors simple English tokenization without external binary deps.
+        return re.findall(r"[a-zA-Z0-9']+", text.lower())
 
     def build_vocab(self, texts):
         """
         Build vocabulary from list of lyric strings.
         """
-        self.vocab = build_vocab_from_iterator(
-            self._yield_tokens(texts), specials=["<unk>"]
-        )
-
-        self.vocab.set_default_index(self.vocab["<unk>"])
+        for text in texts:
+            for token in self._tokenize(text):
+                if token not in self.vocab:
+                    self.vocab[token] = len(self.id_to_token)
+                    self.id_to_token.append(token)
 
     def encode(self, text):
         """
         Convert text → token IDs
         """
-        tokens = self.tokenizer(text)
-        return self.vocab(tokens)
+        return [self.vocab.get(token, 0) for token in self._tokenize(text)]
 
     def encode_batch(self, texts):
         """
@@ -51,9 +48,12 @@ class Tokenizer:
         """
         Convert token IDs → text
         """
-        words = [self.vocab.lookup_token(i) for i in token_ids]
+        words = [
+            self.id_to_token[i] if 0 <= i < len(self.id_to_token) else "<unk>"
+            for i in token_ids
+        ]
         return " ".join(words)
 
     @property
     def vocab_size(self):
-        return len(self.vocab)
+        return len(self.id_to_token)

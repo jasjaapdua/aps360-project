@@ -41,20 +41,34 @@ from preprocessing import (
 from utils import RunLogger, build_run_logger
 
 
-SAMPLE_LYRICS = """midnight city lights are glowing in the rain
-hold my hand and dance until the morning came
-we were young and loud and burning like a flame
-say my name say my name say my name
+SAMPLE_LYRICS = """
+[Verse 1]
+I heard that you're settled down
+That you found a girl and you're married now
+I heard that your dreams came true
+Guess she gave you things I didn't give to you
+Old friend, why are you so shy?
+Ain't like you to hold back or hide from the light
 
-i hear the crowd singing louder than the drums
-your heartbeat racing faster while the chorus comes
-broken dreams and golden streets and restless runs
-we sing on we sing on until the night is done
+[Pre-Chorus]
+I hate to turn up out of the blue, uninvited
+But I couldn't stay away, I couldn't fight it
+I had hoped you'd see my face
+And that you'd be reminded that for me, it isn't over
 
-if the sky falls down we will rise again
-every verse we write will wash away the pain
-through the dark we find a small electric sun
-we sing on we sing on until the night is done
+[Chorus]
+Never mind, I'll find someone like you
+I wish nothing but the best for you, too
+Don't forget me, I beg
+I remember you said
+Sometimes it lasts in love, but sometimes it hurts instead
+Sometimes it lasts in love, but sometimes it hurts instead
+
+[Verse 2]
+You know how the time flies
+Only yesterday was the time of our lives
+We were born and raised in a summer haze
+Bound by the surprise of our glory days
 """
 
 

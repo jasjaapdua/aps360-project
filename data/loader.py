@@ -10,10 +10,45 @@ Supports:
 Returns a list of lyric strings.
 """
 
-from datasets import load_dataset
+import site
+import sys
+from pathlib import Path
 import pandas as pd
 import kagglehub
 from config import config
+
+
+def _resolve_hf_load_dataset():
+    """
+    Resolve Hugging Face's datasets.load_dataset even when a local
+    `datasets/` package exists in the project.
+    """
+    original_sys_path = list(sys.path)
+    project_root = str(Path(__file__).resolve().parents[1])
+    cwd_entry = ""
+
+    # Remove project path entries so local datasets/ doesn't shadow HF datasets.
+    filtered_sys_path = [
+        p
+        for p in original_sys_path
+        if p not in (project_root, cwd_entry)
+    ]
+
+    # Prefer site-packages first.
+    for site_dir in reversed(site.getsitepackages()):
+        if site_dir not in filtered_sys_path:
+            filtered_sys_path.insert(0, site_dir)
+
+    try:
+        sys.path = filtered_sys_path
+        from datasets import load_dataset as hf_load_dataset
+
+        return hf_load_dataset
+    finally:
+        sys.path = original_sys_path
+
+
+load_dataset = _resolve_hf_load_dataset()
 
 
 class LyricsDatasetLoader:

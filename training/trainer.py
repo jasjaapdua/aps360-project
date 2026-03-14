@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader
 from torch import nn
 
 from config import config
-from visualization.plotter import TrainingPlotter
+from visualisation.plotter import TrainingPlotter
 from training.persistence import save_model
 
 

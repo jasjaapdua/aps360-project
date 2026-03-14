@@ -4,6 +4,7 @@ plotter.py
 Plot training metrics.
 """
 
+import os
 import matplotlib.pyplot as plt
 
 
@@ -26,6 +27,9 @@ class TrainingPlotter:
         plt.legend()
 
         if save_path:
+            save_dir = os.path.dirname(save_path)
+            if save_dir:
+                os.makedirs(save_dir, exist_ok=True)
             plt.savefig(save_path)
             print(f"Plot saved to {save_path}")
 

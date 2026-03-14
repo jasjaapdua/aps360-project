@@ -45,6 +45,9 @@ class Config:
         self.batch_size = int(os.getenv("BATCH_SIZE", 64))
         self.epochs = int(os.getenv("EPOCHS", 20))
         self.learning_rate = float(os.getenv("LEARNING_RATE", 0.001))
+        self.max_train_samples = int(os.getenv("MAX_TRAIN_SAMPLES", "100000"))
+        self.max_steps_per_epoch = int(os.getenv("MAX_STEPS_PER_EPOCH", "1000"))
+        self.num_workers = int(os.getenv("NUM_WORKERS", "0"))
 
         # ----------------------
         # model parameters

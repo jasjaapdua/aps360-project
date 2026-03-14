@@ -68,6 +68,7 @@ class LyricsGenerationPipeline:
         """
         print("Creating sequence dataset...")
         self.dataset = SequenceDataset(self.token_sequences, config.seq_length)
+        print(f"Sequence samples: {len(self.dataset)}")
 
     def train_baseline(self):
         """

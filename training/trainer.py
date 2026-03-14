@@ -16,7 +16,9 @@ class Trainer:
         self.loader = DataLoader(
             dataset,
             batch_size=config.batch_size,
-            shuffle=True
+            shuffle=True,
+            num_workers=max(config.num_workers, 0),
+            pin_memory=(config.device == "cuda")
         )
 
         self.device = torch.device(config.device)
@@ -37,10 +39,11 @@ class Trainer:
         for epoch in range(config.epochs):
 
             total_loss = 0
+            steps_run = 0
 
             self.model.train()
 
-            for x, y in self.loader:
+            for step, (x, y) in enumerate(self.loader, start=1):
 
                 x = x.to(self.device)
                 y = y.to(self.device)
@@ -56,8 +59,11 @@ class Trainer:
                 self.optimizer.step()
 
                 total_loss += loss.item()
+                steps_run = step
+                if config.max_steps_per_epoch > 0 and step >= config.max_steps_per_epoch:
+                    break
 
-            avg_loss = total_loss / len(self.loader)
+            avg_loss = total_loss / max(steps_run, 1)
 
             self.loss_history.append(avg_loss)
 

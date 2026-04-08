@@ -1,0 +1,53 @@
+{
+  "config": {
+    "seq_length": 20,
+    "batch_size": 64,
+    "epochs": 10,
+    "learning_rate": 0.001,
+    "train_ratio": 0.8,
+    "val_ratio": 0.1,
+    "test_ratio": 0.1,
+    "random_seed": 42
+  },
+  "split_song_counts": {
+    "train": 16000,
+    "val": 2000,
+    "test": 2000
+  },
+  "split_sample_counts": {
+    "train": 100000,
+    "val": 100000,
+    "test": 100000
+  },
+  "held_out_metrics": {
+    "validation": {
+      "baseline": {
+        "num_samples": 1152689,
+        "loss": 8.280128520606647,
+        "perplexity": 3944.701324810614,
+        "accuracy": 0.10908232836437234
+      },
+      "lstm": {
+        "num_samples": 100000,
+        "loss": 8.121100591430665,
+        "perplexity": 3364.721892061989,
+        "accuracy": 0.0784
+      }
+    },
+    "test": {
+      "baseline": {
+        "num_samples": 1143329,
+        "loss": 8.263662782783452,
+        "perplexity": 3880.280728799862,
+        "accuracy": 0.10899662301927092
+      },
+      "lstm": {
+        "num_samples": 100000,
+        "loss": 8.008688562622071,
+        "perplexity": 3006.9710716972113,
+        "accuracy": 0.07989
+      }
+    }
+  },
+  "qualitative_sample_count": 10
+}

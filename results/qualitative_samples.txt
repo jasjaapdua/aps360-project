@@ -1,0 +1,50 @@
+Sample 1
+Prompt: talking heeey what's up it's dat boy grace and big t baby huh turning crumbs to bricks y'all hey i'm
+Baseline: talking heeey what's up it's dat boy grace and big t baby huh turning crumbs to bricks y'all hey i'm i'm a stick it over cause once you do you want you see him i'd find a mother made nigga pop got my shit wu wu chorus 2x baby that's speaking she love butt and on that's not able to blow your girl in my man all on their bitches
+LSTM: talking heeey what's up it's dat boy grace and big t baby huh turning crumbs to bricks y'all hey i'm cool get my back what i got my crew screwed don't break four doors to hold in this pussy lost niggas forever ahahah or been even down under the mark so has five feelin myself to randy in an barganing contact father they mad fly all 2x whoa live is
+
+Sample 2
+Prompt: uh lil' flip i'm hoppin' out in a fendi suit i got dvds in my bentley coupe i got hoes
+Baseline: uh lil' flip i'm hoppin' out in a fendi suit i got dvds in my bentley coupe i got hoes they said listen there's somethin' or a muthafucka that he slice from london canada portland woo only thing that a ho strictly stricstric strictly campaigns it's being caught in the bed like some blacks to get massive you in my brother he created equal and when conditions are developed all
+LSTM: uh lil' flip i'm hoppin' out in a fendi suit i got dvds in my bentley coupe i got hoes and do it with her to thank you anytime do i stay being looking as i don't see a target that i'm tryin' in the incredible now you cryin' in the sink it was more falling jewels hoes from line of funny i keep your last winter o i roll
+
+Sample 3
+Prompt: yo yo 'round the world today the kilo is a measure oh yo rae i can't feel my face my
+Baseline: yo yo 'round the world today the kilo is a measure oh yo rae i can't feel my face my life now tell you got that got your pockets flappening yo we gon make on anyone who dat they don't hate and dropped one on my life tree where we'll be a shade fine as you to detroit this ain't payin the heat packed with the nigga d d got
+LSTM: yo yo 'round the world today the kilo is a measure oh yo rae i can't feel my face my fundamentals so i'm kinda forgot right if my real thinner he let 'em do it can't come on me dyin but see you see i hope know i got a wring never some smooth i love to get ghost go i grow it step it's all i got the pannenkoeken
+
+Sample 4
+Prompt: yo valet beat yeah what's up it's time to jam chuckles yeah word let's break it down like we used
+Baseline: yo valet beat yeah what's up it's time to jam chuckles yeah word let's break it down like we used protection kept on top of the truth every day here to fly you via donahue explaining to remember like a scooby doo's those new penny i'm still there we be pimps young 'pac i see a bass when i took his dick cause any day diggity i got glockcoma i'm
+LSTM: yo valet beat yeah what's up it's time to jam chuckles yeah word let's break it down like we used to dump puff's picking g'eah groove make joy one on water overweight and yellow wit' 'em straight rock songs mc's it's gutfest gutfest we rap the motherfucking cold five i could come and underground thang it costs is ready to keep contracts now come the women cap you track ground
+
+Sample 5
+Prompt: madd rapper and good evening yeah good evening it is i mr hospitality yeah we here baby aka mr <unk>
+Baseline: madd rapper and good evening yeah good evening it is i mr hospitality yeah we here baby aka mr <unk>
+LSTM: madd rapper and good evening yeah good evening it is i mr hospitality yeah we here baby aka mr unk let me out then they catch me from some corner i my had well all huh we met and throw send yo yo g shine we shoot it all we sholl iz party all make all day and i never do sheep sheep roller cars then you know i'ma were
+
+Sample 6
+Prompt: haam stay calm but potent debut flopped but i'm over it back on my feet just like i'm 'posed to
+Baseline: haam stay calm but potent debut flopped but i'm over it back on my feet just like i'm 'posed to gossip regardless better leave you gotta have a shot hollows at at me now smile showin watch these niggas i doing to keep movin' like some we america's nightmare running and a step it to be grabbed my soldiers took his lady despite we go here and all that's right
+LSTM: haam stay calm but potent debut flopped but i'm over it back on my feet just like i'm 'posed to make our people just been tie em flameignitor up in the gods for where so uh are a ever in an lady in '99 mob's them job it's my destiny chaos war off the ceiling i am with hackney in shackles peep i couldn't jealous i'll so you gotta get
+
+Sample 7
+Prompt: <unk> bismillah sends shivers when you hear it regardless of the hardship we will never ever fear it <unk> for
+Baseline: <unk> bismillah sends shivers when you hear it regardless of the hardship we will never ever fear it <unk> for life ball and then hopped away from the heat fry i'm flossing in the means back door round nigga we send me one sucking on the way too hard times if you keep it who become highly anticipated then i got eight so here's the good enough to the ashtray
+LSTM: unk bismillah sends shivers when you hear it regardless of the hardship we will never ever fear it unk for keep throwing my heart now there she gonna get him eazye have patience remember you think to raise confusion and me out then i'm runnin' in our smoke or our block bring this kids and i say dreams when i'm attention up get it what i'ma top the rhymes cause
+
+Sample 8
+Prompt: artist coolio album it takes a thief clean version song sticky fingers alternate lyrics brainiac with a zany act cleptomaniac
+Baseline: artist coolio album it takes a thief clean version song sticky fingers alternate lyrics brainiac with a zany act cleptomaniac and down without your name i just scorch a thorough one of the way tell niggas know i been carrying weight shaking laughing they got on my derby wit nothin no need and the busters makin cash 'cause i'm from berkley like a fist up com'on with the train i
+LSTM: artist coolio album it takes a thief clean version song sticky fingers alternate lyrics brainiac with a zany act cleptomaniac long for rabbit i pierce money in job to the click house hurt you going to rumble you dont need shit from my mojo mastered i caught the shuttle to got who's the locust so one or i bet you in my mind yea i'm tryin' to thought it should
+
+Sample 9
+Prompt: this is for the g's and this is for the hustlers out there on the grind trying to satisfy the
+Baseline: this is for the g's and this is for the hustlers out there on the grind trying to satisfy the ultra healing is it sucia yo flipmode squad like you gon' do my bitch you how could crack the weave she gone ignite and many worlds being flicked the mutherfuckin block a shame he can't stop me now whip doin' ma look what is a mind for that la chance
+LSTM: this is for the g's and this is for the hustlers out there on the grind trying to satisfy the ride from the record chrome out for border through the mystic two it's fuckin' cold in these n breath pounds out ground by off another bother 18 apartment it with canibus pimped in a hospital jungle move yellow congratulations a whole team all day dead sippin' i leave her hoes
+
+Sample 10
+Prompt: so let's get down to business i don't got no time to play around what is this what is <unk>
+Baseline: so let's get down to business i don't got no time to play around what is this what is <unk>
+LSTM: so let's get down to business i don't got no time to play around what is this what is unk and i just said get from the chosen i don't need to find both fine roll so nigga excuse me mm's cause the opposite sheep up quart well party get get him boys is d12 i'll grab holla life yep up yeah thank a halfway flava death to the wrist
+

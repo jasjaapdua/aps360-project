@@ -47,9 +47,14 @@ class NGramLanguageModel:
             return None
 
         targets = self.ngram_counts[context]
+        if not targets:
+            return None
 
         words = list(targets.keys())
         counts = list(targets.values())
+
+        if not words:
+            return None
 
         return random.choices(words, weights=counts)[0]
 

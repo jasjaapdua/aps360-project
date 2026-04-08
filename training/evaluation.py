@@ -94,7 +94,8 @@ def evaluate_ngram(model, token_sequences, vocab_size):
             context = tuple(seq[i:i + n - 1])
             target = seq[i + n - 1]
 
-            target_count = model.ngram_counts[context].get(target, 0)
+            context_targets = model.ngram_counts.get(context)
+            target_count = context_targets.get(target, 0) if context_targets else 0
             context_count = model.context_counts.get(context, 0)
 
             # Add-one smoothing so unseen contexts/tokens are finite.
@@ -102,8 +103,8 @@ def evaluate_ngram(model, token_sequences, vocab_size):
             total_nll += -math.log(prob)
             total_tokens += 1
 
-            if model.ngram_counts[context]:
-                pred = max(model.ngram_counts[context], key=model.ngram_counts[context].get)
+            if context_targets:
+                pred = max(context_targets, key=context_targets.get)
                 total_correct += int(pred == target)
 
     if total_tokens == 0:

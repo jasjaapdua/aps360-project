@@ -1,4 +1,6 @@
 import torch
+import random
+import numpy as np
 from torch.utils.data import DataLoader
 from torch import nn
 
@@ -12,6 +14,11 @@ class Trainer:
     def __init__(self, model, dataset):
 
         self.model = model
+        random.seed(config.random_seed)
+        np.random.seed(config.random_seed)
+        torch.manual_seed(config.random_seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(config.random_seed)
 
         self.loader = DataLoader(
             dataset,

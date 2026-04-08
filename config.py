@@ -48,6 +48,10 @@ class Config:
         self.max_train_samples = int(os.getenv("MAX_TRAIN_SAMPLES", "100000"))
         self.max_steps_per_epoch = int(os.getenv("MAX_STEPS_PER_EPOCH", "1000"))
         self.num_workers = int(os.getenv("NUM_WORKERS", "0"))
+        self.random_seed = int(os.getenv("RANDOM_SEED", "42"))
+        self.train_ratio = float(os.getenv("TRAIN_RATIO", "0.8"))
+        self.val_ratio = float(os.getenv("VAL_RATIO", "0.1"))
+        self.test_ratio = float(os.getenv("TEST_RATIO", "0.1"))
 
         # ----------------------
         # model parameters
@@ -61,6 +65,16 @@ class Config:
         # ----------------------
         self.max_generation_length = int(os.getenv("MAX_GENERATION_LENGTH", 100))
         self.temperature = float(os.getenv("TEMPERATURE", 0.8))
+        self.qual_num_samples = int(os.getenv("QUAL_NUM_SAMPLES", "10"))
+        self.qual_max_length = int(os.getenv("QUAL_MAX_LENGTH", "50"))
+        self.report_dir = os.getenv("REPORT_DIR", "reports")
+
+        # ----------------------
+        # external/new-data evaluation
+        # ----------------------
+        self.new_dataset_source = os.getenv("NEW_DATASET_SOURCE")
+        self.new_dataset_id = os.getenv("NEW_DATASET_ID")
+        self.new_dataset_max_songs = int(os.getenv("NEW_DATASET_MAX_SONGS", "5000"))
 
         # ----------------------
         # device

@@ -14,7 +14,6 @@ import site
 import sys
 from pathlib import Path
 import pandas as pd
-import kagglehub
 from config import config
 
 
@@ -48,9 +47,6 @@ def _resolve_hf_load_dataset():
         sys.path = original_sys_path
 
 
-load_dataset = _resolve_hf_load_dataset()
-
-
 class LyricsDatasetLoader:
     """
     Loader class responsible for retrieving lyric datasets
@@ -79,6 +75,7 @@ class LyricsDatasetLoader:
         """
         Load lyrics dataset from HuggingFace.
         """
+        load_dataset = _resolve_hf_load_dataset()
         auth_mode = "authenticated" if config.hf_token else "unauthenticated"
         print(f"HF Hub mode: {auth_mode}")
 
@@ -119,6 +116,13 @@ class LyricsDatasetLoader:
         """
         Load lyrics dataset from Kaggle.
         """
+        try:
+            import kagglehub
+        except ImportError as exc:
+            raise RuntimeError(
+                "kagglehub is required for DATASET_SOURCE=kaggle. "
+                "Install dependencies from requirements.txt."
+            ) from exc
 
         path = kagglehub.dataset_download(self.dataset_id)
 

@@ -4,7 +4,6 @@ main.py
 Command line interface for the lyrics generation project.
 """
 import argparse
-from pipeline.pipeline import LyricsGenerationPipeline
 
 
 def main():
@@ -22,6 +21,9 @@ def main():
     # full pipeline
     subparsers.add_parser("run", help="Run full pipeline")
 
+    # evaluation command
+    subparsers.add_parser("evaluate", help="Train and run held-out/new-data evaluation")
+
     # generate command
     generate_parser = subparsers.add_parser("generate", help="Generate lyrics")
 
@@ -29,39 +31,47 @@ def main():
 
     args = parser.parse_args()
 
-    pipeline = LyricsGenerationPipeline()
+    if args.command is None:
+        parser.print_help()
+        return
 
     if args.command == "run":
+        from pipeline.pipeline import LyricsGenerationPipeline
+        pipeline = LyricsGenerationPipeline()
 
         pipeline.run()
 
     elif args.command == "train":
+        from pipeline.pipeline import LyricsGenerationPipeline
+        pipeline = LyricsGenerationPipeline()
 
         pipeline.load_data()
         pipeline.clean_data()
+        pipeline.split_data()
         pipeline.tokenize()
         pipeline.build_dataset()
         pipeline.train_lstm()
 
     elif args.command == "baseline":
+        from pipeline.pipeline import LyricsGenerationPipeline
+        pipeline = LyricsGenerationPipeline()
 
         pipeline.load_data()
         pipeline.clean_data()
+        pipeline.split_data()
         pipeline.tokenize()
         pipeline.train_baseline()
 
+    elif args.command == "evaluate":
+        from pipeline.pipeline import LyricsGenerationPipeline
+        pipeline = LyricsGenerationPipeline()
+
+        pipeline.evaluate()
+
     elif args.command == "generate":
-
-        pipeline.load_data()
-        pipeline.clean_data()
-        pipeline.tokenize()
-        pipeline.build_dataset()
-        pipeline.train_lstm()
-
+        from pipeline.pipeline import LyricsGenerationPipeline
+        pipeline = LyricsGenerationPipeline()
         pipeline.generate(args.seed)
-
-    else:
-        parser.print_help()
 
 
 if __name__ == "__main__":

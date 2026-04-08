@@ -5,6 +5,7 @@ Word-level tokenizer with a lightweight local vocabulary.
 """
 
 import re
+import json
 
 
 class Tokenizer:
@@ -53,6 +54,22 @@ class Tokenizer:
             for i in token_ids
         ]
         return " ".join(words)
+
+    def save(self, path):
+        """
+        Persist tokenizer vocabulary.
+        """
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"id_to_token": self.id_to_token}, f)
+
+    def load(self, path):
+        """
+        Load tokenizer vocabulary.
+        """
+        with open(path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+        self.id_to_token = payload["id_to_token"]
+        self.vocab = {token: idx for idx, token in enumerate(self.id_to_token)}
 
     @property
     def vocab_size(self):

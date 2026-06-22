@@ -179,19 +179,6 @@ Evaluation includes:
 - Training loss plots are saved to `plots/training_loss.png`
 - Reports can be stored in the configured `REPORT_DIR`
 
-## Notes and project strengths
-
-- Designed for **reproducible experiments** with seed-based splits and deterministic loader behavior
-- Built a **custom data preprocessing pipeline** rather than relying on off-the-shelf tokenizers
-- Included both a deep learning model and a traditional statistical baseline for model comparison
-- Integrated **dataset source flexibility** via Hugging Face and Kaggle support
-
-## Suggested Resume Bullet Points
-
-- Implemented an end-to-end lyrics generation pipeline using PyTorch, including dataset ingestion, preprocessing, tokenization, sequence generation, and model evaluation.
-- Built a custom LSTM language model with a word-level tokenizer and checkpoint persistence, achieving reproducible training across configurable hyperparameters.
-- Developed a baseline n-gram language model for comparative evaluation of neural vs. statistical generation performance.
-- Added dataset support for Hugging Face and Kaggle, plus evaluation artifacts such as loss curves, perplexity metrics, and qualitative text samples.
 
 ## Future Improvements
 

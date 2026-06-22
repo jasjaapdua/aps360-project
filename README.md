@@ -200,6 +200,3 @@ Evaluation includes:
 - extend tokenizer to subword or byte-pair encoding
 - add unit tests and automated experiment logging
 
-## License
-
-Add your preferred license here.
